@@ -6,8 +6,8 @@ sys.path.append(os.path.dirname(os.path.abspath(__name__)))
 
 from classes.DataHandler.data import DataHandler
 from classes.modelos.perceptron import NeuronPeceptron
-
-class RoundsPerceptron():
+from classes.modelos.adaline import NeuronADALINE
+class Rounds():
     def __init__(self, data: DataHandler) -> None:
         self.dh = data
 
@@ -17,6 +17,9 @@ class RoundsPerceptron():
         train, teste = self.dh.MonteCarlo()
         train_x, train_y = DataHandler.SepXY(train)
         teste_x, teste_y = DataHandler.SepXY(teste)
+
+        train_x = self.dh.nomrData(train_x)
+        teste_x = self.dh.nomrData(teste_x)
         
         train_x = np.concatenate((train_x, np.full((train_x.shape[0], 1), -1)), axis=1)
         teste_x = np.concatenate((teste_x, np.full((teste_x.shape[0], 1), -1)), axis=1)
@@ -24,7 +27,24 @@ class RoundsPerceptron():
         perceptron.train(train_x, train_y)
         return teste_y - np.apply_along_axis(perceptron.SteepOut, 1, teste_x)
     
+
+
+class RoundsPerceptron(Rounds):
+    def __init__(self, data: DataHandler) -> None:
+        self.dh = data
+
     def run_rounds(self, perceptrons: list[NeuronPeceptron]):
+        results = []
+        for perceptron in perceptrons:
+            results.append(self.round(perceptron))
+        return np.array(results)
+
+
+class RoundsADALINE(Rounds):
+    def __init__(self, data: DataHandler) -> None:
+        self.dh = data
+
+    def run_rounds(self, perceptrons: list[NeuronADALINE]):
         results = []
         for perceptron in perceptrons:
             results.append(self.round(perceptron))
