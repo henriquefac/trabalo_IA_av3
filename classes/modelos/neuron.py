@@ -13,7 +13,11 @@ class Neuron:
         Função degrau para classificação.
         Retorna 1 se entrada >= 0, senão 0.
         """
-        return 1 if self.Output(entrada) >= 0 else 0
+        
+        ot = self.Output(entrada)
+        algo = 1 if ot >= 0 else -1
+        bp = 1
+        return algo
 
     def Output(self, x: np.ndarray) -> int:
         """
