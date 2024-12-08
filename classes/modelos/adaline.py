@@ -20,7 +20,6 @@ class NeuronADALINE(Neuron):
 
 
     def Output(self, x: np.ndarray) -> np.ndarray:
-        
         return np.dot(x, self.w)
 
     def train(self, x_entry: np.ndarray, y_entry: np.ndarray, epochs: int = 1000):
@@ -33,6 +32,6 @@ class NeuronADALINE(Neuron):
 
             eqm2 = self.EQM(x_entry, y_entry)
 
-            if np.abs(eqm1 - eqm2) < self.pr:
+            if np.abs(eqm1 - eqm2) <= self.pr:
                 break
                     

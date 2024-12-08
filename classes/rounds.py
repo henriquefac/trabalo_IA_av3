@@ -18,8 +18,8 @@ class Rounds():
         train_x, train_y = DataHandler.SepXY(train)
         teste_x, teste_y = DataHandler.SepXY(teste)
 
-        train_x = self.dh.nomrData(train_x)
-        teste_x = self.dh.nomrData(teste_x)
+        #train_x = self.dh.nomrData(train_x)
+        #teste_x = self.dh.nomrData(teste_x)
         
         train_x = np.concatenate((train_x, np.full((train_x.shape[0], 1), -1)), axis=1)
         teste_x = np.concatenate((teste_x, np.full((teste_x.shape[0], 1), -1)), axis=1)
