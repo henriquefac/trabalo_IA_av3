@@ -1,5 +1,6 @@
 import numpy as np
 from Classes.dados.Data import DataHandlerMLP
+import matplotlib.pyplot as plt
 from Classes.rounds import RoundsMLP
 dados = DataHandlerMLP(r"dados\spiral.csv")
 
@@ -8,12 +9,16 @@ from Classes.modelos.mlp.newtwork import NetWork
 from Classes.modelos.single_neuron.adaline import NeuronADALINE
 from Classes.modelos.single_neuron.perceptron import NeuronPeceptron
 
-from Classes.rounds import RoundAll
 
-listPerceptron = [NeuronPeceptron(2, 0.01) for _ in range(2)]
-listAdaline = [NeuronADALINE(2) for _ in range(2)]
-listMLP = [NetWork(2, [100], 1) for _ in range(2)]
+train, teste = dados.MonteCarlo()
+train_x, train_y = DataHandlerMLP.SepXY(train)
+teste_x, teste_y = DataHandlerMLP.SepXY(teste)
 
-rounds = RoundAll(dados)
-rounds.run_rounds(listPerceptron, listAdaline, listMLP)
-print(rounds.record)
+rede = NetWork(2,[100],1, learningRate=1e-1)
+rede.train(train_x, train_y)
+
+plt.plot(rede.history['loss'])
+plt.title('Curva de Aprendizado')
+plt.xlabel('Épocas')
+plt.ylabel('EQM')
+plt.show()

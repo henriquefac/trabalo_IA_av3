@@ -31,6 +31,7 @@ class NetWork():
         layers = [p] + innerLayers + [m]
         self.lyrs = [Layer(layers[i+1], layers[i]) for i in range(len(layers)-1)]
         self.lr = learningRate
+        self.history = {'loss': []}
     
     def activation(self, u: np.ndarray) -> np.ndarray:
         return np.tanh(u)
@@ -80,7 +81,7 @@ class NetWork():
                 self.foward(amostra)
                 self.backward(amostra, d)
             eqm = self.EQM(x_matriz, y_array)
-            
+            self.history['loss'].append(eqm)
             
             if np.abs(eqm - last_eqm) <= min_erro:
                 break
