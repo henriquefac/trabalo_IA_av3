@@ -6,7 +6,7 @@ from Classes.modelos.single_neuron.neuron import Neuron
 # esse modelo possui apenas um neuronio
 
 class NeuronADALINE(Neuron):
-    def __init__(self, p: int, n: float, pr: float) -> None:
+    def __init__(self, p: int, n: float = 1e-2, pr: float = 1e-4) -> None:
         super().__init__(p)
         # passo de aprendizagem
         # entre ]0 e 1]
@@ -34,4 +34,7 @@ class NeuronADALINE(Neuron):
 
             if np.abs(eqm1 - eqm2) <= self.pr:
                 break
+ 
                     
+    
+

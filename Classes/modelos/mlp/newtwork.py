@@ -82,7 +82,6 @@ class NetWork():
             eqm = self.EQM(x_matriz, y_array)
             
             
-            print(f"Epoch: {e}; EQM: {eqm}")
             if np.abs(eqm - last_eqm) <= min_erro:
                 break
             else:

@@ -2,17 +2,18 @@ import numpy as np
 from Classes.dados.Data import DataHandlerMLP
 from Classes.rounds import RoundsMLP
 dados = DataHandlerMLP(r"dados\spiral.csv")
-treino, teste = dados.MonteCarlo()
-treino_x, treino_y = DataHandlerMLP.SepXY(treino)
-teste_x, teste_y = DataHandlerMLP.SepXY(teste)
-
 
 # importar rede
 from Classes.modelos.mlp.newtwork import NetWork
+from Classes.modelos.single_neuron.adaline import NeuronADALINE
+from Classes.modelos.single_neuron.perceptron import NeuronPeceptron
 
+from Classes.rounds import RoundAll
 
-list_mlp = [NetWork(2, [100], 1) for _ in range(500)]
+listPerceptron = [NeuronPeceptron(2, 0.01) for _ in range(2)]
+listAdaline = [NeuronADALINE(2) for _ in range(2)]
+listMLP = [NetWork(2, [100], 1) for _ in range(2)]
 
-# Criando a instância da classe de rodadas e chamando o método run_rounds
-rounds_mlp = RoundsMLP(dados)
-resultados_mlp = rounds_mlp.run_rounds(list_mlp)
+rounds = RoundAll(dados)
+rounds.run_rounds(listPerceptron, listAdaline, listMLP)
+print(rounds.record)

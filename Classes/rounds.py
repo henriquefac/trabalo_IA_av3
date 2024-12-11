@@ -99,3 +99,32 @@ class RoundsMLP_paralel():
         return results
 
 
+class RoundAll():
+    def __init__(self, dh: DataHandlerMLP):
+        self.dh = dh
+        self.record = {"y":[],
+            "mlp":[],
+            "perceptron":[],
+            "adaline":[]}
+        
+    def round(self, perceptron: NeuronPeceptron, adaline: NeuronADALINE, mlp: NetWork):
+        train, teste = self.dh.MonteCarlo()
+        train_x, train_y = DataHandlerMLP.SepXY(train)
+        teste_x, teste_y = DataHandlerMLP.SepXY(teste)
+        
+        mlp.train(train_x, train_y.flatten())
+        self.record["mlp"].append((mlp.predic(teste_x)).tolist())
+    
+        train_x, train_y = train_x.T, train_y.T
+        teste_x, teste_y = teste_x.T, teste_y.T
+        perceptron.train(train_x, train_y)
+        adaline.train(train_x, train_y)
+        
+        self.record["perceptron"].append(perceptron.Predict(teste_x).tolist())
+        self.record["adaline"].append(adaline.Predict(teste_x).tolist())
+        self.record["y"].append(teste_y.flatten().tolist())
+        
+    def run_rounds(self, perceptronList: list[NeuronPeceptron], 
+                   adalineList: list[NeuronADALINE], mlpList: list[NetWork]):
+        for p, a, m in zip(perceptronList, adalineList, mlpList):
+            self.round(p, a, m)

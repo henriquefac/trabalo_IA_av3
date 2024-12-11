@@ -32,4 +32,5 @@ class Neuron:
         # Aplica a função degrau
         return soma_ponderada
 
-
+    def Predict(self, x_matrix) -> np.ndarray:
+        return np.apply_along_axis(self.SteepOut, 1, x_matrix)
